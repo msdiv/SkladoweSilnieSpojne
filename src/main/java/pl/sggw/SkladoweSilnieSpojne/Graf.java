@@ -12,6 +12,8 @@ import com.mxgraph.view.mxGraph;
 
 public class Graf extends mxGraph {
 
+	private int index = 1;
+
 	public Graf(){
 	}
 	
@@ -64,7 +66,9 @@ public class Graf extends mxGraph {
 	}
 	private void createVertex(int x, int y) {
 		int size = 30;
-		mxCell cell = (mxCell) insertVertex(getDefaultParent(), "asd","" , x - size / 2, y - size / 2, size, size);
+//		mxCell cell = (mxCell) insertVertex(getDefaultParent(), "asd" + index, "" + index, x - size / 2, y - size / 2, size, size);
+		mxCell cell = (mxCell) insertVertex(getDefaultParent(), "asd" + index, "" + index, x - size / 2, y - size / 2, size, size,"shape=ellipse;perimeter=100;whiteSpace=wrap;fillColor=lightgray");
+		index++;
 
 //		if (sidePanel.getCreateEdges().isSelected())
 //			connectWithOtherVertices(cell);
