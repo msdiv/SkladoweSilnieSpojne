@@ -85,6 +85,7 @@ public class Program extends JFrame {
 		}
 		graf.clearSelection();
 		stronglyConnectedSets = connectivityInspector.stronglyConnectedSets(); //cały algorytm w jednej linijce heh
+		menu.updateResult(stronglyConnectedSets);
 	};
 
 	protected void clear() {

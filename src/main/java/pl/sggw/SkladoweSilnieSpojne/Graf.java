@@ -25,15 +25,19 @@ public class Graf extends mxGraph {
 	public void init(JFrame okno) {
 
 		setDisconnectOnMove(false);
-//		setAllowLoops(true);
+		// setAllowLoops(true);
 		setAllowDanglingEdges(false);
 		setCellsBendable(true);
 		setDropEnabled(false);
 		setCellsResizable(false);
 
-		
-//		@Override
-//		mxVertexHandler.createSelectionShape = function(bounds){var shape = new mxRectangleShape(bounds, null, this.getSelectionColor());shape.strokewidth = this.getSelectionStrokeWidth();shape.isDashed = this.isSelectionDashed();shape.isRounded = this.state.style[mxConstants.STYLE_ROUNDED] == 1;return shape;};
+		// @Override
+		// mxVertexHandler.createSelectionShape = function(bounds){var shape =
+		// new mxRectangleShape(bounds, null,
+		// this.getSelectionColor());shape.strokewidth =
+		// this.getSelectionStrokeWidth();shape.isDashed =
+		// this.isSelectionDashed();shape.isRounded =
+		// this.state.style[mxConstants.STYLE_ROUNDED] == 1;return shape;};
 
 		final mxGraphComponent rysowanie = new mxGraphComponent(this);
 		okno.add(rysowanie, BorderLayout.CENTER);
@@ -61,21 +65,13 @@ public class Graf extends mxGraph {
 				mxCell cell = (mxCell) selectionModel.getCell(); // pobiera
 																	// pierwszy
 																	// zaznaczony
-																	// elementy
+																	// elementy?
 				if (cell != null && cell.isEdge()) {
 					removeSelectionCell(cell); // usuwa zaznaczenie
 
 					for (Object obj : getOutgoingEdges(cell.getSource())) {
 						mxCell out = (mxCell) obj;
 						if (out != cell && out.getTarget() == cell.getTarget()) {
-							getModel().remove(cell);
-							return;
-						}
-					}
-
-					for (Object obj : getOutgoingEdges(cell.getTarget())) {
-						mxCell out = (mxCell) obj;
-						if (out != cell && out.getTarget() == cell.getSource()) {
 							getModel().remove(cell);
 							return;
 						}
@@ -100,9 +96,10 @@ public class Graf extends mxGraph {
 		// mxCircleLayout layout = new mxCircleLayout(this);
 		// layout.execute(getDefaultParent());
 	}
-	public void wyczyscGraf(){
+
+	public void wyczyscGraf() {
 		selectAll();
 		removeCells(getSelectionCells());
-		index=1;
+		index = 1;
 	}
 }
