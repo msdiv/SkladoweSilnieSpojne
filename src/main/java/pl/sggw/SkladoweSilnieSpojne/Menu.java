@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel {
 	private JPanel panel;
-	private JButton find;
-	private JButton clear;
+	private JButton findButton;
+	private JButton clearButton;
 	// private JCheckBox oriented;
 	private JLabel resultText;
 	private JLabel result;
@@ -25,13 +25,13 @@ public class Menu extends JPanel {
 													// między guzikami
 		//panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); //trzeba dodać maximum size
 		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),"Menu"));
-		find = new JButton("Znajdź");
-		find.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(find);
+		findButton = new JButton("Znajdź");
+		findButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(findButton);
 
-		clear = new JButton("Wyczyść");
-		clear.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(clear);
+		clearButton = new JButton("Wyczyść");
+		clearButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(clearButton);
 
 		resultText = new JLabel("Składowe silnie spójne:");
 		resultText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,7 +42,11 @@ public class Menu extends JPanel {
 		
 		add(panel);
 	}
-	public void clearResult() {
+	public JButton clickClear() {
 		result.setText(" ");
+		return clearButton;
+	}
+	public JButton clickFind() {
+		return findButton;
 	}
 }
