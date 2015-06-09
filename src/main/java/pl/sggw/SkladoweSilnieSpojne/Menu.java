@@ -1,5 +1,6 @@
 package pl.sggw.SkladoweSilnieSpojne;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -15,75 +16,82 @@ import java.util.*;
 
 public class Menu extends JPanel {
 	private JPanel panel;
-	private JButton findButton;
-	private JButton clearButton;
-	// private JCheckBox oriented;
-	private JLabel resultText;
-	private JPanel result;
+	private JButton znajdzButton;
+	private JButton wyczyscButton;
+	private JLabel wynikTytul;
+	private JPanel wynik;
 
 	public Menu() {
 		panel = new JPanel();
-		panel.setLayout(new GridLayout(4, 1)); // wiersze,kolumny,odległości
-												// między guzikami
-		// panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); //trzeba
-		// dodać maximum size
-		panel.setSize(300, 500);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setSize(getWidth(), getHeight());
 		panel.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createEtchedBorder(), "Menu"));
-		findButton = new JButton("Znajdź");
-		findButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(findButton);
+		znajdzButton = new JButton("Znajdź");
+		znajdzButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		znajdzButton.setSize(300, 100);
+		znajdzButton.setMaximumSize(new Dimension(300, 100));
+		panel.add(znajdzButton);
 
-		clearButton = new JButton("Wyczyść");
-		clearButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(clearButton);
+		wyczyscButton = new JButton("Wyczyść");
+		wyczyscButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		wyczyscButton.setSize(300, 100);
+		wyczyscButton.setMaximumSize(new Dimension(300, 100));
+		panel.add(wyczyscButton);
 
-		resultText = new JLabel("Składowe silnie spójne:");
-		resultText.setAlignmentX(Component.CENTER_ALIGNMENT);
-		panel.add(resultText);
-		// resultText.hide();
+		wynikTytul = new JLabel("Składowe silnie spójne:");
+		wynikTytul.setAlignmentX(Component.CENTER_ALIGNMENT);
+		wynikTytul.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panel.add(wynikTytul);
 
-		result = new JPanel();
-		result.setLayout(new BoxLayout(result, BoxLayout.Y_AXIS));
-		result.setBorder(BorderFactory.createEmptyBorder());
+		wynik = new JPanel();
+		wynik.setLayout(new BoxLayout(wynik, BoxLayout.Y_AXIS));
+		wynik.setBorder(BorderFactory.createEmptyBorder());
+		panel.add(wynik);
 
 		add(panel);
 	}
 
-	public JButton clickClear() {
-		result.removeAll();
-		return clearButton;
+	public JButton klikniecieWyczysc() {
+		this.wynik.removeAll();
+		this.wynik.revalidate();
+		this.panel.revalidate();
+		return wyczyscButton;
 	}
 
 	public JButton clickFind() {
-		return findButton;
+		return znajdzButton;
 	}
 
-	public void updateResult(List<Set<String>> stronglyConnectedSets) { //wynik przekazywany jako lista setów stringów
+	public void updateResult(List<Set<String>> stronglyConnectedSets) { // wynik
+																		// przekazywany
+																		// jako
+																		// lista
+																		// setów
+																		// stringów
 
 		Iterator<Set<String>> i = stronglyConnectedSets.iterator();
-		result.removeAll(); //czyszczenie result
-		
+		wynik.removeAll(); // czyszczenie result
+
 		JLabel l = new JLabel(" ");
 		l.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		while (i.hasNext()) {
 			Set<String> set = (Set<String>) i.next();
 			JLabel label = new JLabel("");
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
-			String wynik = "hgfjghfh";
+			String skladowa = "";
 
 			panel.add(label);
-			for (String wierzcholek : set) { //pętla foreach, ":" jest odpowiednikiem "in"
-				wynik += wierzcholek + ", ";
-			}			
-			label.setText(wynik);
-			result.add(label);
-			result.add(l);
-			result.revalidate();
-//			result.updateUI();
-			System.out.println(wynik);
+			for (String wierzcholek : set) { // pętla foreach, ":" jest
+												// odpowiednikiem "in"
+				skladowa += wierzcholek + ", ";
+			}
+			label.setText(skladowa);
+			wynik.add(label);
+			wynik.add(l);
+			wynik.revalidate();
 		}
-		panel.revalidate(); //odświeżenie menu
+		panel.revalidate(); // odświeżenie menu
 	}
 }

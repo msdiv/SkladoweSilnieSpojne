@@ -27,15 +27,15 @@ public class Program extends JFrame {
 
 	private Menu menu;
 	private Graf graf;
-	public List stronglyConnectedSets;
+	public List silnieSpojneSkladowe;
 
 	public Program() {
 		super("Znajdowanie składowych silnie spójnych");
 
 		setMinimumSize(new Dimension(700, 500));
 		setLayout(new BorderLayout());
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2
+		Dimension rozmiar = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(rozmiar.width / 2 - getSize().width / 2, rozmiar.height / 2
 				- getSize().height / 2);
 
 		menu = new Menu();
@@ -43,18 +43,16 @@ public class Program extends JFrame {
 
 		menu.clickFind().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				find();
-				// menu.setComputeTime(System.currentTimeMillis() - time);
+				znajdzSkladowe();
 			}
 		});
-		
-		menu.clickClear().addActionListener(new ActionListener() {
+
+		menu.klikniecieWyczysc().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clear();
-				// menu.setComputeTime(System.currentTimeMillis() - time);
+				czysc();
 			}
 		});
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
@@ -62,35 +60,47 @@ public class Program extends JFrame {
 		graf.init(this);
 	}
 
-	@SuppressWarnings("unchecked")
-	protected void find() { //znajdowanie składowych silnie spójnych
-		DirectedGraph<String, DefaultEdge> directedGraph = new DefaultDirectedGraph<String, DefaultEdge>(
+	protected void znajdzSkladowe() { // znajdowanie składowych silnie spójnych
+		DirectedGraph<String, DefaultEdge> grafZorientowany = new DefaultDirectedGraph<String, DefaultEdge>(
 				DefaultEdge.class);
-		StrongConnectivityInspector connectivityInspector = new StrongConnectivityInspector<String, DefaultEdge>(
-				directedGraph);
+		StrongConnectivityInspector testerSpojnosci = new StrongConnectivityInspector<String, DefaultEdge>(
+				grafZorientowany);
 
-		graf.selectCells(true, false); //zaznaczam wszystkie wierzchołki, żęby je potem pobrać
-		for (Object verticle : graf.getSelectionCells()) {
-			directedGraph.addVertex((String) ((mxCell) verticle).getValue());
+		graf.selectCells(true, false); // zaznaczam wszystkie wierzchołki, żęby
+										// je potem pobrać
+		for (Object wierzcholek : graf.getSelectionCells()) {
+			grafZorientowany.addVertex((String) ((mxCell) wierzcholek)
+					.getValue());
 		}
 
-		graf.selectCells(false, true); //to samo dla krawędzi
-		for (Object edge : graf.getSelectionCells()) {
+		graf.selectCells(false, true); // to samo dla krawędzi
+		for (Object krawedz : graf.getSelectionCells()) {
 
-			mxICell s = ((mxCell) edge).getSource(); //źródło i ujście każdej krawędzi
-			mxICell t = ((mxCell) edge).getTarget();
+			mxICell z = ((mxCell) krawedz).getSource(); // źródło i ujście
+														// każdej
+														// krawędzi
+			mxICell u = ((mxCell) krawedz).getTarget();
 
-			String source = (String) s.getValue();
-			String target = (String) t.getValue();
-			directedGraph.addEdge(source, target);
+			String zrodlo = (String) z.getValue();
+			String ujscie = (String) u.getValue();
+			grafZorientowany.addEdge(zrodlo, ujscie);
 		}
 		graf.clearSelection();
-		stronglyConnectedSets = connectivityInspector.stronglyConnectedSets(); //cały algorytm w jednej linijce heh
-		menu.updateResult(stronglyConnectedSets);
+		silnieSpojneSkladowe = testerSpojnosci.stronglyConnectedSets(); // cały
+																		// algorytm
+																		// w
+																		// jednej
+																		// linijce
+																		// heh
+		menu.updateResult(silnieSpojneSkladowe);
 	};
 
-	protected void clear() {
+	protected void czysc() {
 		graf.wyczyscGraf();
+		menu.klikniecieWyczysc();
+		if (silnieSpojneSkladowe != null) {
+			silnieSpojneSkladowe.clear();
+		}
 	}
 
 	public static void main(String[] args) {
