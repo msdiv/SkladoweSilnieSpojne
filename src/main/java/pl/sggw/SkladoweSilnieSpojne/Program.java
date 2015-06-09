@@ -62,6 +62,7 @@ public class Program extends JFrame {
 		graf.init(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void find() { //znajdowanie składowych silnie spójnych
 		DirectedGraph<String, DefaultEdge> directedGraph = new DefaultDirectedGraph<String, DefaultEdge>(
 				DefaultEdge.class);
