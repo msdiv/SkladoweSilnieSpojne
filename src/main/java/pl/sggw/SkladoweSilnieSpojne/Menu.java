@@ -80,13 +80,20 @@ public class Menu extends JPanel {
 			Set<String> set = (Set<String>) i.next();
 			JLabel label = new JLabel("");
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
-			String skladowa = "";
+			String skladowa = "(";
 
 			panel.add(label);
 			for (String wierzcholek : set) { // pętla foreach, ":" jest
 												// odpowiednikiem "in"
 				skladowa += wierzcholek + ", ";
 			}
+			StringBuilder temp = new StringBuilder(skladowa); // zamiana
+																// ostatniego
+																// przecinka na
+																// nawias
+			temp.replace(skladowa.lastIndexOf(","),
+					skladowa.lastIndexOf(",") + 1, "),");
+			skladowa = temp.toString();
 			label.setText(skladowa);
 			wynik.add(label);
 			wynik.add(l);
